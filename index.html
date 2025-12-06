@@ -3,95 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inbox (42) - sales@chinacnu.com</title>
-    <!-- 引入 Google Fonts Roboto -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- 引入 Material Icons -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Inbox — Yandex Mail</title>
+    <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@400;500;700&family=Arial:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* CSS Reset & Basic Style */
-        * { box-sizing: border-box; }
-        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Roboto', sans-serif; background-color: #f6f8fc; color: #202124; overflow: hidden; }
+        /* --- Yandex Mail Style Reset --- */
+        * { box-sizing: border-box; outline: none; }
+        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f0f0f0; color: #000; overflow: hidden; }
         
-        /* Layout Grid */
         .app-container { display: flex; flex-direction: column; height: 100vh; }
         
         /* --- HEADER --- */
-        .header { display: flex; align-items: center; padding: 8px 16px; background: #fff; height: 64px; border-bottom: 1px solid #eaecf0; justify-content: space-between; }
+        .header { 
+            display: flex; align-items: center; padding: 0 20px; 
+            background: #fff; height: 56px; border-bottom: 1px solid #e0e0e0; 
+            justify-content: space-between; position: relative; z-index: 10;
+        }
         
-        .header-left { display: flex; align-items: center; min-width: 230px; }
-        .menu-icon { padding: 12px; margin-right: 4px; border-radius: 50%; cursor: pointer; color: #5f6368; }
-        .menu-icon:hover { background-color: #f0f3f6; }
+        .header-left { display: flex; align-items: center; width: 250px; }
+        .hamburger { margin-right: 15px; cursor: pointer; display: flex; flex-direction: column; gap: 4px; }
+        .hamburger span { width: 18px; height: 2px; background: #000; }
         
-        .logo { display: flex; align-items: center; }
-        .logo img { height: 40px; margin-right: 10px; } /* Fallback text logo below */
-        .logo-text { font-size: 22px; color: #5f6368; position: relative; top: -2px; }
-        .g-blue { color: #4285f4; } .g-red { color: #ea4335; } .g-yellow { color: #fbbc04; } .g-green { color: #34a853; }
+        /* Yandex Logo Style */
+        .logo { font-size: 22px; font-weight: bold; display: flex; align-items: center; letter-spacing: -0.5px; cursor: pointer; }
+        .logo span:first-child { color: #fc3f1d; } /* Y - Red */
+        .logo span:last-child { color: #000; } /* andex Mail */
         
-        .header-middle { flex: 1; max-width: 720px; margin: 0 10px; }
-        .search-box { background: #eaf1fb; height: 48px; border-radius: 24px; display: flex; align-items: center; padding: 0 16px; transition: background 0.2s, box-shadow 0.2s; }
-        .search-box:focus-within { background: #fff; box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15); }
-        .search-box input { border: none; background: transparent; flex: 1; margin: 0 10px; font-size: 16px; outline: none; color: #1f1f1f; }
-        .search-icon { color: #444746; }
+        .header-middle { flex: 1; display: flex; justify-content: center; }
+        .search-bar { 
+            width: 100%; max-width: 600px; height: 36px; 
+            background: #f5f5f5; border: 1px solid transparent; 
+            border-radius: 3px; display: flex; align-items: center; padding: 0 10px;
+            transition: border 0.2s, background 0.2s;
+        }
+        .search-bar:focus-within { background: #fff; border-color: #fc3f1d; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+        .search-bar input { border: none; background: transparent; flex: 1; font-size: 15px; padding-left: 10px; }
+        .search-btn { color: #999; font-weight: bold; cursor: pointer; font-size: 14px; }
         
-        .header-right { display: flex; align-items: center; padding-right: 10px; gap: 10px; }
-        .icon-btn { padding: 10px; border-radius: 50%; color: #5f6368; cursor: pointer; }
-        .icon-btn:hover { background-color: #f0f3f6; }
-        .avatar { width: 32px; height: 32px; background-color: #0b57d0; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-left: 8px; cursor: pointer; }
+        .header-right { display: flex; align-items: center; gap: 15px; width: 250px; justify-content: flex-end; }
+        .user-info { display: flex; align-items: center; cursor: pointer; }
+        .user-name { font-weight: bold; font-size: 14px; margin-right: 10px; }
+        .user-avatar { 
+            width: 32px; height: 32px; border-radius: 50%; 
+            background: #e0e0e0; color: #555; 
+            display: flex; align-items: center; justify-content: center; 
+            font-weight: bold; font-size: 14px; border: 1px solid #ccc;
+        }
 
         /* --- MAIN BODY --- */
-        .main-body { display: flex; flex: 1; overflow: hidden; }
+        .main-body { display: flex; flex: 1; overflow: hidden; background: #fff; }
         
         /* --- SIDEBAR --- */
-        .sidebar { width: 256px; padding-top: 8px; padding-right: 16px; display: flex; flex-direction: column; flex-shrink: 0; }
+        .sidebar { width: 230px; background: #fff; padding: 15px 10px; display: flex; flex-direction: column; flex-shrink: 0; border-right: 1px solid #f0f0f0; }
         
-        .compose-btn-container { padding-left: 8px; margin-bottom: 16px; }
-        .compose-btn { background-color: #c2e7ff; color: #001d35; border: none; height: 56px; min-width: 56px; padding: 0 24px 0 16px; border-radius: 16px; display: flex; align-items: center; font-weight: 500; font-size: 14px; cursor: pointer; transition: box-shadow 0.2s; font-family: 'Roboto', sans-serif; gap: 12px; }
-        .compose-btn:hover { box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15); }
+        /* The Iconic Yandex Yellow Button */
+        .compose-btn { 
+            background-color: #ffdb4d; color: #000; border: none; 
+            height: 40px; width: 100%; border-radius: 3px; 
+            font-size: 14px; font-weight: 500; cursor: pointer; 
+            margin-bottom: 20px; transition: background 0.2s;
+        }
+        .compose-btn:hover { background-color: #fcc521; }
         
         .nav-list { list-style: none; padding: 0; margin: 0; }
-        .nav-item { display: flex; align-items: center; height: 32px; padding: 0 12px 0 26px; border-radius: 0 16px 16px 0; color: #202124; cursor: pointer; font-size: 14px; margin-bottom: 1px; }
-        .nav-item.active { background-color: #d3e3fd; font-weight: 700; color: #001d35; }
-        .nav-item:hover:not(.active) { background-color: #eaecf0; }
-        .nav-item .material-icons { font-size: 20px; margin-right: 18px; }
-        .nav-badge { margin-left: auto; font-size: 12px; font-weight: 700; }
+        .nav-item { 
+            display: flex; align-items: center; height: 32px; padding: 0 12px; 
+            color: #333; cursor: pointer; font-size: 14px; margin-bottom: 2px; border-radius: 3px;
+        }
+        .nav-item:hover { background-color: #f5f5f5; }
+        .nav-item.active { background-color: #f0f0f0; font-weight: bold; }
+        .nav-text { flex: 1; margin-left: 10px; }
+        .nav-count { color: #999; font-size: 12px; font-weight: normal; }
+
+        /* --- CONTENT AREA --- */
+        .content-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+        
+        /* Toolbar */
+        .toolbar { 
+            height: 40px; border-bottom: 1px solid #e0e0e0; display: flex; align-items: center; 
+            padding: 0 15px; color: #777; font-size: 13px; background: #fff;
+        }
+        .checkbox-all { width: 16px; height: 16px; border: 1px solid #ccc; border-radius: 2px; margin-right: 15px; cursor: pointer; }
+        .tool-btn { margin-right: 20px; cursor: pointer; }
+        .tool-btn:hover { color: #000; }
+        .view-options { margin-left: auto; cursor: pointer; }
 
         /* --- EMAIL LIST --- */
-        .email-view { flex: 1; background: #fff; border-radius: 16px; margin: 0 16px 16px 0; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 0 10px rgba(0,0,0,0.02); }
+        .email-list-container { flex: 1; overflow-y: auto; background: #fff; }
         
-        .toolbar { height: 48px; border-bottom: 1px solid #eaecf0; display: flex; align-items: center; padding: 0 16px; color: #444746; }
-        .checkbox { border: 2px solid #444746; border-radius: 2px; width: 15px; height: 15px; margin-right: 18px; cursor: pointer; }
-        .tool-icon { margin-right: 20px; font-size: 18px; cursor: pointer; }
+        .email-row { 
+            display: flex; align-items: center; height: 42px; 
+            border-bottom: 1px solid #f0f0f0; padding: 0 15px; 
+            cursor: pointer; font-size: 14px; position: relative;
+        }
+        .email-row:hover { background-color: #fff8e1; /* Yandex hover yellow tint */ }
+        .email-row.active { background-color: #fff0c2; } /* Selected/Active */
         
-        .email-container { flex: 1; overflow-y: auto; }
+        .row-checkbox { width: 16px; height: 16px; border: 1px solid #ccc; border-radius: 2px; margin-right: 12px; }
+        .row-sender-img { 
+            width: 24px; height: 24px; border-radius: 50%; margin-right: 12px; 
+            display: flex; align-items: center; justify-content: center; 
+            font-size: 12px; color: #fff; font-weight: bold; text-transform: uppercase;
+        }
         
-        .email-row { display: flex; align-items: center; height: 40px; border-bottom: 1px solid #f2f2f2; padding: 0 8px 0 16px; cursor: pointer; position: relative; }
-        .email-row:hover { box-shadow: inset 1px 0 0 #dadce0, inset -1px 0 0 #dadce0, 0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15); z-index: 10; background: #f2f6fc; }
+        .row-sender { width: 180px; padding-right: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #000; }
+        .unread .row-sender { font-weight: bold; }
         
-        /* Unread State */
-        .email-row.unread { background-color: #fff; font-weight: 700; color: #202124; }
-        .email-row.read { background-color: #f8fafd; color: #5f6368; font-weight: 400; }
-        .email-row.unread .sender, .email-row.unread .subject { font-weight: 800; }
+        .row-subject-snippet { flex: 1; display: flex; align-items: center; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+        .row-subject { color: #000; margin-right: 5px; }
+        .unread .row-subject { font-weight: bold; }
+        .row-snippet { color: #888; }
         
-        .row-icons { display: flex; align-items: center; width: 60px; flex-shrink: 0; }
-        .star-icon { color: #c4c7c5; cursor: pointer; font-size: 20px; }
-        .star-icon.active { color: #fbbc04; }
+        .row-date { width: 80px; text-align: right; color: #888; font-size: 12px; }
         
-        .sender { width: 200px; padding-right: 32px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 14px; }
+        /* --- DETAIL VIEW (Overlay style for Yandex) --- */
+        .detail-view { 
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0; 
+            background: #fff; display: none; flex-direction: column; 
+            z-index: 20; padding: 0;
+        }
         
-        .content { flex: 1; display: flex; align-items: center; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .subject { color: #1f1f1f; }
-        .snippet { color: #5f6368; font-weight: 400; margin-left: 5px; }
+        .detail-header { 
+            padding: 15px 20px; border-bottom: 1px solid #e0e0e0; 
+            display: flex; align-items: center; background: #fff;
+        }
+        .back-btn { 
+            margin-right: 20px; cursor: pointer; font-size: 24px; color: #777; display: flex; align-items: center;
+        }
+        .back-btn:hover { color: #000; }
         
-        .date { width: 100px; text-align: right; font-size: 12px; font-weight: 500; color: #1f1f1f; padding-right: 10px; }
-        .email-row.read .date { color: #5f6368; font-weight: 400; }
+        .detail-content { padding: 20px 40px; overflow-y: auto; flex: 1; }
+        .detail-subject { font-size: 24px; font-weight: bold; margin-bottom: 20px; color: #000; }
+        
+        .detail-meta { display: flex; align-items: center; margin-bottom: 30px; }
+        .meta-avatar { 
+            width: 42px; height: 42px; border-radius: 50%; 
+            margin-right: 15px; display: flex; align-items: center; 
+            justify-content: center; color: #fff; font-weight: bold; font-size: 18px;
+        }
+        .meta-text div:first-child { font-weight: bold; font-size: 14px; }
+        .meta-text div:last-child { color: #888; font-size: 12px; margin-top: 2px; }
+        
+        .detail-body { font-size: 15px; line-height: 1.6; color: #000; white-space: pre-wrap; max-width: 800px; }
+        
+        .detail-actions { margin-top: 40px; border-top: 1px solid #eee; padding-top: 20px; }
+        .quick-reply { 
+            border: 1px solid #ccc; padding: 10px; border-radius: 3px; 
+            color: #888; cursor: text; max-width: 600px;
+        }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 12px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #dadce0; border: 4px solid transparent; background-clip: content-box; border-radius: 99px; }
-        ::-webkit-scrollbar-thumb:hover { background-color: #9aa0a6; }
-
+        /* Utility */
+        .hidden { display: none !important; }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #aaa; }
     </style>
 </head>
 <body>
@@ -100,189 +166,436 @@
         <!-- HEADER -->
         <header class="header">
             <div class="header-left">
-                <span class="material-icons menu-icon">menu</span>
-                <div class="logo">
-                    <span class="logo-text">
-                        <strong class="g-blue">G</strong><strong class="g-red">m</strong><strong class="g-yellow">a</strong><strong class="g-blue">i</strong><strong class="g-green">l</strong>
-                    </span>
+                <div class="hamburger"><span></span><span></span><span></span></div>
+                <div class="logo" onclick="refreshAll()">
+                    <span>Y</span><span>andex Mail</span>
                 </div>
             </div>
             <div class="header-middle">
-                <div class="search-box">
-                    <span class="material-icons search-icon">search</span>
-                    <input type="text" value="to: sales@chinacnu.com" readonly>
-                    <span class="material-icons search-icon" style="margin-right:10px;">tune</span>
+                <div class="search-bar">
+                    <input type="text" value="Search mail" readonly>
+                    <span class="search-btn">Search</span>
                 </div>
             </div>
             <div class="header-right">
-                <span class="material-icons icon-btn">help_outline</span>
-                <span class="material-icons icon-btn">settings</span>
-                <span class="material-icons icon-btn">apps</span>
-                <div class="avatar">C</div>
+                <div class="user-info">
+                    <span class="user-name">Susan</span>
+                    <div class="user-avatar">S</div>
+                </div>
             </div>
         </header>
 
         <div class="main-body">
             <!-- SIDEBAR -->
-            <nav class="sidebar">
-                <div class="compose-btn-container">
-                    <button class="compose-btn" onclick="generateEmails()">
-                        <span class="material-icons">edit</span>
-                        Compose
-                    </button>
-                </div>
+            <div class="sidebar">
+                <button class="compose-btn" onclick="refreshAll()">Write</button>
                 <ul class="nav-list">
-                    <li class="nav-item active">
-                        <span class="material-icons">inbox</span> Inbox <span class="nav-badge" id="inbox-count">42</span>
+                    <li class="nav-item active" onclick="goBackToList()">
+                        <span class="nav-text">Inbox</span>
+                        <span class="nav-count" id="inbox-count">28</span>
                     </li>
                     <li class="nav-item">
-                        <span class="material-icons">star_border</span> Starred
+                        <span class="nav-text">Sent</span>
                     </li>
                     <li class="nav-item">
-                        <span class="material-icons">access_time</span> Snoozed
+                        <span class="nav-text">Trash</span>
                     </li>
                     <li class="nav-item">
-                        <span class="material-icons">send</span> Sent
+                        <span class="nav-text">Spam</span>
                     </li>
                     <li class="nav-item">
-                        <span class="material-icons">drafts</span> Drafts
-                    </li>
-                    <li class="nav-item">
-                        <span class="material-icons">keyboard_arrow_down</span> More
+                        <span class="nav-text">Drafts</span>
                     </li>
                 </ul>
-            </nav>
+                <div style="margin-top: 20px; border-top: 1px solid #f0f0f0; padding-top: 10px; color:#888; font-size:12px; font-weight:bold; padding-left:12px;">FOLDERS</div>
+                <ul class="nav-list">
+                    <li class="nav-item"><span class="nav-text">Steel Inquiries</span></li>
+                    <li class="nav-item"><span class="nav-text">Kitchen Equipment</span></li>
+                    <li class="nav-item"><span class="nav-text">Logistics</span></li>
+                </ul>
+            </div>
 
-            <!-- CONTENT -->
-            <main class="email-view">
-                <div class="toolbar">
-                    <div class="checkbox"></div>
-                    <span class="material-icons tool-icon" onclick="generateEmails()" title="Refresh List">refresh</span>
-                    <span class="material-icons tool-icon">more_vert</span>
-                    <div style="flex:1"></div>
-                    <span style="font-size:12px; color:#5f6368; margin-right:15px">1-50 of 2,431</span>
-                    <span class="material-icons tool-icon" style="margin:0 5px; font-size:16px">chevron_left</span>
-                    <span class="material-icons tool-icon" style="margin:0; font-size:16px">chevron_right</span>
+            <!-- CONTENT AREA -->
+            <div class="content-area">
+                <!-- Toolbar -->
+                <div class="toolbar" id="main-toolbar">
+                    <div class="checkbox-all"></div>
+                    <span class="tool-btn" onclick="refreshAll()">Refresh</span>
+                    <span class="tool-btn">Forward</span>
+                    <span class="tool-btn">Delete</span>
+                    <span class="tool-btn">Spam</span>
+                    <span class="tool-btn">Mark as read</span>
+                    <div class="view-options">View: Date ↓</div>
                 </div>
-                
-                <div class="email-container" id="email-list">
-                    <!-- Emails will be injected here via JS -->
+
+                <!-- Email List -->
+                <div class="email-list-container" id="email-list-view">
+                    <!-- JS Injected -->
                 </div>
-            </main>
+
+                <!-- Detail View -->
+                <div class="detail-view" id="email-detail-view">
+                    <div class="detail-header">
+                        <div class="back-btn" onclick="goBackToList()">← Back</div>
+                        <div style="flex:1"></div>
+                        <div class="tool-btn" style="margin:0 10px;">Reply</div>
+                        <div class="tool-btn" style="margin:0 10px;">Delete</div>
+                    </div>
+                    <div class="detail-content">
+                        <div class="detail-subject" id="detail-subject">Subject</div>
+                        <div class="detail-meta">
+                            <div class="meta-avatar" id="detail-avatar" style="background:#5c6bc0;">A</div>
+                            <div class="meta-text">
+                                <div><span id="detail-sender">Sender</span> <span style="color:#888; font-weight:normal">&lt;<span id="detail-email">email</span>&gt;</span></div>
+                                <div id="detail-date">Date</div>
+                            </div>
+                        </div>
+                        <div class="detail-body" id="detail-body">Body</div>
+                        
+                        <div class="detail-actions">
+                            <div class="quick-reply">Quick reply to all...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
-        // --- CONFIGURATION ---
-
-        // 1. 发件人 (混合: 欧美, 中东, 东南亚, 公司名)
-        const senders = [
-            "Global Steel Trading", "Ahmed Construction LLC", "PT. Indo Jaya Steel", 
-            "Michael Richards", "Siam Kitchen Supplies", "Euro Metal Group", 
-            "David Al-Mansour", "KBB Distributors", "Sarah Jenkins", 
-            "Vietnam Steel Corp", "Hassan & Sons Trading", "Robert Mueller",
-            "Golden Gate Imports", "Riyadh Hotel Projects", "John Smith",
-            "Alpha Catering Equip", "Elena Volkov", "Mumbai Infrastructure",
-            "West Coast Metals", "Chef's Choice Commercial"
+        // Massive Sender Pool (60+ unique entries) to prevent duplication
+        const senderPool = [
+            { name: "Oleg Petrov", domain: "petrov-steel.ru", color: "#e53935" },
+            { name: "Dmitry Ivanov", domain: "ivanov-stroy.ru", color: "#1e88e5" },
+            { name: "Global Steel Trading", domain: "globalsteel.com", color: "#43a047" },
+            { name: "Ahmed Construction LLC", domain: "ahmedconst.ae", color: "#fb8c00" },
+            { name: "PT. Indo Jaya Steel", domain: "indojaya.co.id", color: "#8e24aa" },
+            { name: "Michael Richards", domain: "mrichards-imports.com", color: "#3949ab" },
+            { name: "Siam Kitchen Supplies", domain: "siamkitchen.th", color: "#00acc1" },
+            { name: "Euro Metal Group", domain: "eurometal.de", color: "#fdd835" },
+            { name: "Natalia Sokolova", domain: "sokolova-kitchens.ru", color: "#d81b60" },
+            { name: "KBB Distributors", domain: "kbb-dist.uk", color: "#5e35b1" },
+            { name: "Sarah Jenkins", domain: "jenkins-procurement.us", color: "#039be5" },
+            { name: "Vietnam Steel Corp", domain: "vnsteel.vn", color: "#7cb342" },
+            { name: "Hassan & Sons Trading", domain: "hassan-trd.qa", color: "#c0ca33" },
+            { name: "Robert Mueller", domain: "mueller-bau.de", color: "#6d4c41" },
+            { name: "Golden Gate Imports", domain: "goldengate.us", color: "#546e7a" },
+            { name: "Riyadh Hotel Projects", domain: "riyadh-hotels.sa", color: "#f4511e" },
+            { name: "John Smith", domain: "jsmith-logistics.com", color: "#757575" },
+            { name: "Alpha Catering Equip", domain: "alphacatering.au", color: "#00897b" },
+            { name: "Elena Volkov", domain: "volkov-trade.ru", color: "#c2185b" },
+            { name: "Mumbai Infrastructure", domain: "mumbai-infra.in", color: "#fb8c00" },
+            { name: "Igor Smirnov", domain: "smirnov-met.ru", color: "#d32f2f" },
+            { name: "Cairo Kitchens", domain: "cairo-supplies.eg", color: "#7b1fa2" },
+            { name: "Hans Weber", domain: "weber-stahl.de", color: "#fbc02d" },
+            { name: "Tokyo Trading Co", domain: "tokyo-trd.jp", color: "#388e3c" },
+            { name: "Carlos Rodriguez", domain: "rodriguez-metal.es", color: "#1976d2" },
+            { name: "Mohammed Al-Fayed", domain: "alfayed-group.sa", color: "#0288d1" },
+            { name: "Seoul Industrial", domain: "seoul-ind.kr", color: "#0097a7" },
+            { name: "Pacific Imports", domain: "pacific-imports.au", color: "#00796b" },
+            { name: "Istanbul Steel", domain: "istanbul-celik.tr", color: "#388e3c" },
+            { name: "Boris Fedorov", domain: "fedorov-prom.ru", color: "#689f38" },
+            { name: "Lima Construction", domain: "lima-const.pe", color: "#afb42b" },
+            { name: "Cape Town Metals", domain: "capetown-met.za", color: "#ffa000" },
+            { name: "Manila Restaurant Supply", domain: "manila-rs.ph", color: "#f57c00" },
+            { name: "Jakarta Projects", domain: "jakarta-proj.id", color: "#e64a19" },
+            { name: "Bangkok Steel", domain: "bangkok-st.th", color: "#5d4037" },
+            { name: "Paris Boulangerie Equip", domain: "paris-equip.fr", color: "#616161" },
+            { name: "Milan Catering", domain: "milan-cat.it", color: "#455a64" },
+            { name: "Warsaw Heavy Ind", domain: "warsaw-ind.pl", color: "#512da8" },
+            { name: "Toronto Kitchens", domain: "toronto-k.ca", color: "#303f9f" },
+            { name: "Sao Paulo Metals", domain: "saopaulo-met.br", color: "#1976d2" },
+            { name: "Doha Trading", domain: "doha-trd.qa", color: "#0097a7" },
+            { name: "Shanghai Exports", domain: "shanghai-exp.cn", color: "#d32f2f" },
+            { name: "Nigerian Steel Co", domain: "nigerian-st.ng", color: "#388e3c" },
+            { name: "Kenya Builders", domain: "kenya-build.ke", color: "#fbc02d" },
+            { name: "Oslo Marine", domain: "oslo-mar.no", color: "#0288d1" },
+            { name: "Helsinki Works", domain: "helsinki-w.fi", color: "#5e35b1" },
+            { name: "Athens Supply", domain: "athens-sup.gr", color: "#039be5" },
+            { name: "Lisbon Traders", domain: "lisbon-trd.pt", color: "#00897b" },
+            { name: "Dublin Imports", domain: "dublin-imp.ie", color: "#43a047" },
+            { name: "Prague Industrial", domain: "prague-ind.cz", color: "#c0ca33" },
+            { name: "Budapest Steel", domain: "budapest-st.hu", color: "#fdd835" },
+            { name: "Bucharest Metals", domain: "bucharest-met.ro", color: "#fb8c00" },
+            { name: "Sofia Construction", domain: "sofia-const.bg", color: "#f4511e" },
+            { name: "Zagreb Trade", domain: "zagreb-trd.hr", color: "#6d4c41" },
+            { name: "Belgrade Supplies", domain: "belgrade-sup.rs", color: "#546e7a" },
+            { name: "Vienna Gastronomy", domain: "vienna-gas.at", color: "#78909c" }
         ];
 
-        // 2. 钢铁外贸主题 (Steel / Metal)
         const steelSubjects = [
-            "Inquiry for Galvanized Steel Coils (GI) - 200MT",
-            "RFQ: SS304 Cold Rolled Sheets / 2B Finish",
-            "Urgent Price Request: ASTM A36 Carbon Steel Plate",
-            "Order Confirmation: Prepainted Steel Coils (PPGI)",
-            "Need catalog for Corrugated Roofing Sheets",
-            "FOB Price needed for Square Hollow Sections",
-            "Looking for long term supplier: Stainless Steel Pipes",
-            "Project Inquiry: H-Beam and I-Beam specifications",
-            "Re: Quotation for CRC Coils - CIF Jebel Ali",
-            "Wire Rods SAE1008 availability check"
+            "Inquiry for Galvanized Steel Coils (GI)",
+            "RFQ: SS304 Cold Rolled Sheets",
+            "Urgent Price Request: ASTM A36 Plate",
+            "Order Confirmation: PPGI Coils",
+            "Need catalog: Corrugated Roofing",
+            "FOB Price: Square Hollow Sections",
+            "Supplier Needed: Stainless Steel Pipes",
+            "Project Inquiry: H-Beam / I-Beam",
+            "Quotation: CRC Coils CIF Jebel Ali",
+            "Availability Check: Wire Rods SAE1008",
+            "Tender Request: Structural Steel #8821",
+            "Re: Monthly Steel Supply Order",
+            "Question regarding Steel Grade 316L",
+            "Importing Carbon Steel to Russia",
+            "Looking for Angle Bars Supplier"
         ];
 
-        // 3. 商厨设备主题 (Commercial Kitchen)
         const kitchenSubjects = [
-            "Quote: Commercial Stainless Steel Workbench (Custom Size)",
-            "Inquiry: Heavy Duty Gas Range 6-Burner",
-            "RFQ for Hotel Kitchen Project in Dubai (Full Equipment)",
-            "Looking for Industrial Upright Freezer (Double Door)",
-            "Price Inquiry: Commercial Dough Mixers 20L",
-            "Under Counter Fridge / Saladette availability",
-            "Need best price for GN Pans 1/1 containers",
-            "Restaurant Project: Hood Systems and Sinks",
-            "Supply of Commercial Dishwashers - Monthly Order",
-            "Bakery Oven (Deck Oven) Specifications needed"
+            "Quote: Commercial SS Workbench",
+            "Inquiry: Heavy Duty Gas Range",
+            "RFQ: Hotel Kitchen Equipment Project",
+            "Looking for: Industrial Freezer",
+            "Price Inquiry: Commercial Mixers 20L",
+            "Availability: Under Counter Fridge",
+            "Best price for GN Pans 1/1",
+            "Restaurant Project: Hood Systems",
+            "Supply of Commercial Dishwashers",
+            "Bakery Oven Specifications Needed",
+            "Urgent: Spare Parts for Mixer",
+            "Catalogue Request: Buffet Equipment",
+            "Re: Order #9923 - Food Warmers",
+            "New Restaurant Opening - Equipment List",
+            "Coffee Machine Bulk Order Inquiry"
         ];
 
-        // 4. 邮件内容片段
-        const snippets = [
-            "Dear Sales Team, We are working on a new government project and require...",
-            "Hi, Please provide your best price for the attached list of items. We need...",
-            "Hello, Can you ship to Lagos Port? What is your lead time for this quantity...",
-            "We saw your profile on the web and are interested in your stainless steel range...",
-            "Urgent requirement. Please confirm if you have stock for immediate shipment...",
-            "Kind regards, waiting for your Proforma Invoice as discussed...",
-            "We are a large distributor in Saudi Arabia looking for a new partner for...",
-            "Please send technical data sheet and certificates for these items..."
-        ];
+        let emailDataStore = [];
 
-        function getRandom(arr) {
-            return arr[Math.floor(Math.random() * arr.length)];
+        // Shuffle function (Fisher-Yates) to guarantee no repeats
+        function shuffle(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex != 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
         }
 
-        function generateEmails() {
-            const container = document.getElementById('email-list');
-            let html = '';
+        function getRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+        function generateBodyAndSnippet(isSteel, senderName, subject) {
+            const intros = [
+                "I hope this email finds you well.",
+                "Good day to you.",
+                "We found your contact details on the web.",
+                "Regarding our phone conversation earlier,",
+                "We are interested in your products.",
+                "Urgent inquiry from Russia.",
+                "Please quote your best price.",
+                "We saw your catalog online.",
+                "Greetings from our purchasing department.",
+                "Following up on the exhibition meeting,",
+                "Is this item currently in stock?",
+                "Can you export to our country?",
+                "We are finalizing our supplier list.",
+                "Reference to the attached RFQ.",
+                "Short question about your lead time."
+            ];
+
+            const roles = [
+                "a leading trading company",
+                "a construction firm",
+                "an authorized distributor",
+                "a manufacturing plant",
+                "a wholesale supplier",
+                "an engineering contractor",
+                "purchasing for a client",
+                "sourcing for a tender",
+                "a local retailer",
+                "an import-export agent"
+            ];
+
+            const intro = getRandom(intros);
+            const role = getRandom(roles);
+            const randomID = Math.floor(Math.random() * 9000) + 1000;
+
+            let body = "";
+            let snippet = "";
+
+            if (isSteel) {
+                const material = getRandom(["SS304", "SS316", "Galvanized Steel", "Carbon Steel", "Cold Rolled Steel"]);
+                const qty = getRandom(["200 Tons", "2 Containers", "500 Sheets", "50 MT"]);
+                const dest = getRandom(["St. Petersburg", "Novorossiysk", "Dubai", "Hamburg", "Vladivostok"]);
+                
+                // Varied body templates
+                const templates = [
+                    `Dear Sales,\n\n${intro} We are ${role}. We need a quote for ${material}. Qty: ${qty} to ${dest}.`,
+                    `Hi Susan,\n\nWe urgently require ${material}. Can you ship to ${dest}? We need ${qty}. Please reply with PI.`,
+                    `To Export Team,\n\nRegarding ${subject}, please provide specs for ${material}. We are ${role} in ${dest}.`,
+                    `Hello,\n\nDo you have ${material} (Thickness: 1.2mm)? We need ${qty} for a project in ${dest}.`,
+                    `Greetings,\n\nPlease offer your best FOB price for ${material}. We are ${role}. Target price is critical.`
+                ];
+                body = getRandom(templates) + `\n\nWaiting for your reply.\n\nBest Regards,\n${senderName}`;
+                
+                // Varied Snippets for List View (Crucial for realism)
+                const snippetStyles = [
+                    `${intro} We are ${role}...`,
+                    `URGENT: Requesting price for ${material}...`,
+                    `Re: ${subject} - Please confirm availability...`,
+                    `Project #${randomID}: We need ${qty} of ${material}...`,
+                    `Can you ship ${material} to ${dest}? We are...`,
+                    `Regarding our call: We decided to order...`,
+                    `RFQ #${randomID} attached. Please quote...`
+                ];
+                snippet = getRandom(snippetStyles);
+
+            } else {
+                const item = getRandom(["Workbenches", "Refrigerators", "Gas Ranges", "Dishwashers", "Mixers"]);
+                const voltage = getRandom(["220V", "380V"]);
+                
+                const templates = [
+                    `Dear Susan,\n\n${intro} We are equipping a kitchen and need ${item}. Voltage: ${voltage}.`,
+                    `Hi,\n\nWhat is the lead time for ${item}? We are ${role}. Need 20 units.`,
+                    `To Sales,\n\nPlease send catalog for ${item}. We are ${role}. Do you have CE cert?`,
+                    `Hello,\n\nInquiry for ${item} (Model X-200). We need this for a project.`,
+                    `Good day,\n\nWe need to replace our old ${item}. Please suggest a model.`
+                ];
+                body = getRandom(templates) + `\n\nThanks,\n${senderName}`;
+
+                const snippetStyles = [
+                    `${intro} Looking for ${item}...`,
+                    `Inquiry #${randomID}: ${item} pricing...`,
+                    `Do you have ${item} in stock? Voltage...`,
+                    `We are ${role} looking for...`,
+                    `Order #${randomID}: Please send Proforma...`,
+                    `Specs check: ${item} dimensions...`,
+                    `Re: ${subject} - When can you ship?`
+                ];
+                snippet = getRandom(snippetStyles);
+            }
+
+            return { body, snippet };
+        }
+
+        function generateData() {
+            emailDataStore = [];
             
-            // 生成 40 封邮件
+            // 1. Shuffle the huge sender pool to guarantee NO repeats in the first 40
+            const uniqueSenders = shuffle([...senderPool]).slice(0, 40);
+
+            // 2. Base time: Now (System Time) - Ensures no future time
+            let currentBaseTime = new Date(); 
+
             for (let i = 0; i < 40; i++) {
-                // 逻辑: 前 12 封未读 (看起来很忙)
-                const isUnread = i < 12;
-                const sender = getRandom(senders);
-                
-                // 50% 概率是钢铁，50% 是商厨
+                const senderObj = uniqueSenders[i];
                 const isSteel = Math.random() > 0.5;
-                const subjectText = isSteel ? getRandom(steelSubjects) : getRandom(kitchenSubjects);
-                const snippetText = getRandom(snippets);
                 
-                // 生成时间
-                let timeStr;
-                if (i < 5) {
-                    // 最近几分钟
-                    timeStr = `10:${30 - i} AM`;
-                } else if (i < 15) {
-                    timeStr = `9:${Math.floor(Math.random()*50)+10} AM`;
+                // Add random IDs to subject for realism
+                let subjectBase = isSteel ? getRandom(steelSubjects) : getRandom(kitchenSubjects);
+                if (Math.random() > 0.7) subjectBase += ` [#${Math.floor(Math.random()*10000)}]`;
+                
+                const content = generateBodyAndSnippet(isSteel, senderObj.name, subjectBase);
+                
+                // --- ROBUST TIME GENERATION LOGIC ---
+                // Always subtract from currentBaseTime, so it always goes backwards
+                // Random gap between emails: 3 minutes to 45 minutes
+                let gap = Math.floor(Math.random() * 42) + 3;
+                
+                // For the very first email, maybe just 1-5 mins ago from "now"
+                if (i === 0) gap = Math.floor(Math.random() * 5) + 1;
+
+                currentBaseTime = new Date(currentBaseTime.getTime() - gap * 60000);
+
+                let timeStr, fullDateStr;
+                
+                const now = new Date();
+                const isToday = currentBaseTime.getDate() === now.getDate() && 
+                                currentBaseTime.getMonth() === now.getMonth() && 
+                                currentBaseTime.getFullYear() === now.getFullYear();
+
+                let h = currentBaseTime.getHours();
+                let m = currentBaseTime.getMinutes();
+                let hhmm = `${h < 10 ? '0'+h : h}:${m < 10 ? '0'+m : m}`;
+                
+                const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                let d = currentBaseTime.getDate();
+                let mon = months[currentBaseTime.getMonth()];
+                let y = currentBaseTime.getFullYear();
+
+                if (isToday) {
+                    timeStr = hhmm;
+                    fullDateStr = `Today, ${hhmm}`;
                 } else {
-                    timeStr = "Dec 05";
+                    timeStr = `${d < 10 ? '0'+d : d} ${mon}`;
+                    fullDateStr = `${d} ${mon} ${y}, ${hhmm}`;
                 }
 
-                // 随机星标
-                const isStarred = Math.random() > 0.85 ? 'active' : '';
-                const starIcon = isStarred ? 'star' : 'star_border';
-
-                html += `
-                    <div class="email-row ${isUnread ? 'unread' : 'read'}">
-                        <div class="row-icons">
-                            <div class="checkbox"></div>
-                            <span class="material-icons star-icon ${isStarred}">${starIcon}</span>
-                        </div>
-                        <div class="sender">${sender}</div>
-                        <div class="content">
-                            <span class="subject">${subjectText}</span>
-                            <span class="snippet">&nbsp;- ${snippetText}</span>
-                        </div>
-                        <div class="date">${timeStr}</div>
-                    </div>
-                `;
+                emailDataStore.push({
+                    id: i,
+                    sender: senderObj.name,
+                    email: `purchase@${senderObj.domain}`,
+                    color: senderObj.color,
+                    subject: subjectBase,
+                    body: content.body,
+                    time: timeStr,
+                    fullDate: fullDateStr,
+                    isUnread: i < 12, // First 12 are unread
+                    snippet: content.snippet
+                });
             }
-            container.innerHTML = html;
-            
-            // 更新左侧未读数
-            document.getElementById('inbox-count').innerText = Math.floor(Math.random() * 20) + 30; // 30-50之间
+            renderList();
         }
 
-        // Initialize on load
-        window.onload = generateEmails;
+        function renderList() {
+            const container = document.getElementById('email-list-view');
+            let html = '';
+            
+            emailDataStore.forEach((email, index) => {
+                const unreadClass = email.isUnread ? 'unread' : '';
+                const senderInitial = email.sender.charAt(0).toUpperCase();
+
+                html += `
+                    <div class="email-row ${unreadClass}" onclick="openEmail(${index})">
+                        <div class="row-checkbox" onclick="event.stopPropagation()"></div>
+                        <div class="row-sender-img" style="background-color: ${email.color}">${senderInitial}</div>
+                        <div class="row-sender">${email.sender}</div>
+                        <div class="row-subject-snippet">
+                            <span class="row-subject">${email.subject}</span>
+                            <span class="row-snippet">- ${email.snippet}</span>
+                        </div>
+                        <div class="row-date">${email.time}</div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+            
+            // Random count update
+            document.getElementById('inbox-count').innerText = Math.floor(Math.random() * 20) + 30;
+        }
+
+        function openEmail(index) {
+            const email = emailDataStore[index];
+            
+            document.getElementById('detail-subject').innerText = email.subject;
+            document.getElementById('detail-sender').innerText = email.sender;
+            document.getElementById('detail-email').innerText = email.email;
+            document.getElementById('detail-date').innerText = email.fullDate;
+            document.getElementById('detail-body').innerText = email.body;
+            
+            const avatar = document.getElementById('detail-avatar');
+            avatar.innerText = email.sender.charAt(0).toUpperCase();
+            avatar.style.background = email.color;
+            
+            email.isUnread = false;
+            // Show Detail View
+            document.getElementById('email-list-view').classList.add('hidden');
+            document.getElementById('email-detail-view').style.display = 'flex';
+            document.getElementById('main-toolbar').classList.add('hidden');
+        }
+
+        function goBackToList() {
+            document.getElementById('email-list-view').classList.remove('hidden');
+            document.getElementById('email-detail-view').style.display = 'none';
+            document.getElementById('main-toolbar').classList.remove('hidden');
+            renderList();
+        }
+
+        function refreshAll() {
+            goBackToList();
+            generateData();
+        }
+
+        window.onload = generateData;
 
     </script>
 </body>
